@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 import { IFilesService } from "../interfaces/files.service.interface";
 import { ConfigService } from "@nestjs/config";
 import { LIST_DIRECTORY, READ_FILE } from "../queries";
+import { Tree } from "../types";
 
 @Injectable()
 export class GitlabFilesService implements IFilesService {
@@ -29,7 +30,7 @@ export class GitlabFilesService implements IFilesService {
       },
     });
   }
-  async listDirectory(path: string): Promise<string[]> {
+  async listDirectory(path: string): Promise<Tree> {
     const { domain, parsedPath } = await this.parseArguments(path);
 
     const client = await this.createClient();
@@ -39,22 +40,10 @@ export class GitlabFilesService implements IFilesService {
       variables: { path: parsedPath, domain: domain },
     });
 
-    const blobs = data?.project?.repository?.tree?.blobs?.edges?.map(
-      (edge: { node: { name: string; type: string } }) => edge.node.name
-    );
-
-    const trees = data?.project?.repository?.tree?.trees?.edges?.map(
-      (edge: { node: { name: string; type: string } }) => edge.node.name
-    );
-
-    if (!blobs || !trees) {
-      return ["Invalid query"];
-    }
-
-    return [...blobs, ...trees];
+    return data?.project?.repository?.tree;
   }
 
-  async readFile(path: string): Promise<string[]> {
+  /* async readFile(path: string): Promise<string[]> {
     const { domain, parsedPath } = await this.parseArguments(path);
 
     const client = await this.createClient();
@@ -71,5 +60,5 @@ export class GitlabFilesService implements IFilesService {
     }
 
     return data;
-  }
+  } */
 }

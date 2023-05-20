@@ -14,10 +14,10 @@ export class FilesResolver {
   @Query(() => Tree)
   async listDirectory(@Args("path") path: string): Promise<Tree> {
     // Call the GitLab API and transform the data to your Tree type
-    return this.gitlabService.listDirectory(path, domain);
+    return this.filesService.listDirectory(path);
   }
 
-  @Query(() => Blob)
+  /* @Query(() => Blob)
   async readFile(@Args("path") path: string): Promise<Blob> {
     const result = await this.filesService.readFile(path);
     return this.toBlob(result);
@@ -34,5 +34,5 @@ export class FilesResolver {
       rawBlob: node.rawBlob,
       rawTextBlob: node.rawTextBlob,
     };
-  }
+  } */
 }

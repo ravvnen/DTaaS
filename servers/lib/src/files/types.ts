@@ -1,12 +1,20 @@
 import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
-export class Tree {
+export class BlobConnection {
   @Field()
-  blobs: [Blob];
+  edges: [BlobEdge];
 
   @Field()
-  trees: [TreeEntry];
+  nodes: [Blob];
+}
+@ObjectType()
+export class Tree {
+  @Field((type) => BlobConnection)
+  blobs: BlobConnection;
+
+  @Field((type) => TreeEntryConnection, { nullable: true })
+  trees: TreeEntryConnection;
 }
 
 @ObjectType()
@@ -88,15 +96,6 @@ export class BlobEdge {
 }
 
 @ObjectType()
-export class BlobConnection {
-  @Field()
-  edges: [BlobEdge];
-
-  @Field()
-  nodes: [Blob];
-}
-
-@ObjectType()
 export class TreeEntryEdge {
   @Field()
   node: TreeEntry;
@@ -110,7 +109,30 @@ export class TreeEntryConnection {
   @Field()
   nodes: [TreeEntry];
 }
+@ObjectType()
+export class RepositoryBlobEdge {
+  @Field()
+  node: Blob;
 
+  @Field()
+  cursor: string;
+}
+
+@ObjectType()
+export class RepositoryBlob {
+  @Field()
+  edges: [RepositoryBlobEdge];
+
+  @Field()
+  nodes: [RepositoryBlob];
+}
+export class RepositoryBlobConnection {
+  @Field()
+  edges: [RepositoryBlobEdge];
+
+  @Field()
+  nodes: [RepositoryBlob];
+}
 @ObjectType()
 export class Repository {
   @Field()
@@ -136,24 +158,6 @@ export class BlobEdgeConnection {
 }
 
 @ObjectType()
-export class RepositoryBlobEdge {
-  @Field()
-  node: Blob;
-
-  @Field()
-  cursor: string;
-}
-
-@ObjectType()
-export class RepositoryBlob {
-  @Field()
-  edges: [RepositoryBlobEdge];
-
-  @Field()
-  nodes: [RepositoryBlob];
-}
-
-@ObjectType()
 export class Project {
   @Field()
   repository: Repository;
@@ -172,15 +176,6 @@ export class Project {
 export class RawBlob {
   @Field()
   content: string;
-}
-
-@ObjectType()
-export class RepositoryBlobConnection {
-  @Field()
-  edges: [RepositoryBlobEdge];
-
-  @Field()
-  nodes: [RepositoryBlob];
 }
 
 @ObjectType()

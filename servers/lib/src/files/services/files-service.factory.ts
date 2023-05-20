@@ -8,14 +8,14 @@ import { GitlabFilesService } from "./gitlab-files.service";
 export class FilesServiceFactory {
   constructor(
     private configService: ConfigService,
-    @Inject(LocalFilesService) private localFilesService: LocalFilesService,
+    //@Inject(LocalFilesService) private localFilesService: LocalFilesService,
     @Inject(GitlabFilesService) private gitlabFilesService: GitlabFilesService
   ) {}
 
   create(): IFilesService {
     const mode = this.configService.get<string>("MODE");
     if (mode === "local") {
-      return this.localFilesService;
+      return this.gitlabFilesService;
     } else if (mode === "gitlab") {
       return this.gitlabFilesService;
     } else {
