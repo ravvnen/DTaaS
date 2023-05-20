@@ -3,90 +3,103 @@
 # ------------------------------------------------------
 
 type Tree {
-  blobs: [Blob!]!
-  trees: [TreeEntry!]!
+  blobs: [Blob]
+  trees: [TreeEntry]
 }
 
 type TreeNode {
-  node: Tree!
+  node: Tree
 }
 
 type Blob {
-  flatPath: String!
-  id: String!
-  name: String!
-  path: String!
-  webPath: String!
-  webUrl: String!
-  rawBlob: String!
-  rawTextBlob: String!
+  flatPath: String
+  id: String
+  name: String
+  path: String
+  webPath: String
+  webUrl: String
+  rawBlob: String
+  rawTextBlob: String
 }
 
 type TreeEntry {
-  flatPath: String!
-  id: String!
-  name: String!
-  path: String!
-  webPath: String!
-  webUrl: String!
+  flatPath: String
+  id: String
+  name: String
+  path: String
+  webPath: String
+  webUrl: String
 }
 
 type TreeEdge {
-  node: TreeNode!
-  cursor: String!
-}
-
-type PageInfo {
-  hasNextPage: Boolean!
-  endCursor: String!
+  node: TreeNode
+  cursor: String
 }
 
 type TreeConnection {
-  edges: [TreeEdge!]!
-  nodes: [Tree!]!
-  pageInfo: PageInfo!
+  edges: [TreeEdge]
+  nodes: [Tree]
 }
 
 type BlobEdge {
-  node: Blob!
-  cursor: String!
+  node: Blob
 }
 
 type BlobConnection {
-  edges: [BlobEdge!]!
-  nodes: [Blob!]!
-  pageInfo: PageInfo!
+  edges: [BlobEdge]
+  nodes: [Blob]
 }
 
 type TreeEntryEdge {
-  node: TreeEntry!
-  cursor: String!
+  node: TreeEntry
 }
 
 type TreeEntryConnection {
-  edges: [TreeEntryEdge!]!
-  nodes: [TreeEntry!]!
-  pageInfo: PageInfo!
+  edges: [TreeEntryEdge]
+  nodes: [TreeEntry]
 }
 
 type Repository {
-  tree: TreeConnection!
-  blobs: BlobConnection!
-  trees: TreeEntryConnection!
+  tree: Tree
+  blobs: RepositoryBlobConnection
+}
+
+type BlobNode {
+  node: Blob
+}
+
+type BlobEdgeConnection {
+  edges: [BlobEdge]
+  nodes: [BlobEdge]
 }
 
 type RepositoryBlobEdge {
-  node: Blob!
-  cursor: String!
+  node: Blob
+  cursor: String
 }
 
 type RepositoryBlob {
-  edges: [RepositoryBlobEdge!]!
-  nodes: [RepositoryBlob!]!
-  pageInfo: PageInfo!
+  edges: [RepositoryBlobEdge]
+  nodes: [RepositoryBlob]
+}
+
+type Project {
+  fullPath: String
+  webUrl: String
+  path: String
+  repository: Repository
+}
+
+type Rawblob {
+  content: String
+}
+
+type RepositoryBlobConnection {
+  edges: [RepositoryBlobEdge]
+  nodes: [RepositoryBlob]
 }
 
 type Query {
-  listDirectory(path: String!): Tree!
-  readFile(path: String!): Blob!
+  listDirectory: Tree
+  readFile: Blob
 }

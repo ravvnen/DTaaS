@@ -13,14 +13,8 @@ export class FilesResolver {
 
   @Query(() => Tree)
   async listDirectory(@Args("path") path: string): Promise<Tree> {
-    const result = await this.filesService.listDirectory(path);
-    // convert result to Tree type
-    const tree: Tree = {
-      blobs: [],
-      trees: [],
-    };
-
-    return tree;
+    // Call the GitLab API and transform the data to your Tree type
+    return this.gitlabService.listDirectory(path, domain);
   }
 
   @Query(() => Blob)

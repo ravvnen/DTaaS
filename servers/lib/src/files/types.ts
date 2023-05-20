@@ -2,16 +2,16 @@ import { Field, ObjectType } from "@nestjs/graphql";
 
 @ObjectType()
 export class Tree {
-  @Field(() => [Blob])
-  blobs: Blob[];
+  @Field()
+  blobs: [Blob];
 
-  @Field(() => [TreeEntry])
-  trees: TreeEntry[];
+  @Field()
+  trees: [TreeEntry];
 }
 
 @ObjectType()
 export class TreeNode {
-  @Field(() => Tree)
+  @Field()
   node: Tree;
 }
 
@@ -64,29 +64,8 @@ export class TreeEntry {
 }
 
 @ObjectType()
-export class Query {
-  @Field()
-  listDirectory: Tree;
-
-  @Field()
-  readFile: Blob;
-}
-
-@ObjectType()
-export class Mutation {
-  @Field(() => Blob)
-  createFile: Blob;
-}
-
-@ObjectType()
-export class Subscription {
-  @Field(() => Blob)
-  fileCreated: Blob;
-}
-
-@ObjectType()
 export class TreeEdge {
-  @Field(() => TreeNode)
+  @Field()
   node: TreeNode;
 
   @Field()
@@ -94,107 +73,71 @@ export class TreeEdge {
 }
 
 @ObjectType()
-export class PageInfo {
-  @Field()
-  hasNextPage: boolean;
-
-  @Field()
-  endCursor: string;
-}
-
-@ObjectType()
 export class TreeConnection {
-  @Field(() => [TreeEdge])
-  edges: TreeEdge[];
+  @Field()
+  edges: [TreeEdge];
 
-  @Field(() => [Tree])
-  nodes: Tree[];
-
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+  @Field()
+  nodes: [Tree];
 }
 
 @ObjectType()
 export class BlobEdge {
-  @Field(() => Blob)
-  node: Blob;
-
   @Field()
-  cursor: string;
+  node: Blob;
 }
 
 @ObjectType()
 export class BlobConnection {
-  @Field(() => [BlobEdge])
-  edges: BlobEdge[];
+  @Field()
+  edges: [BlobEdge];
 
-  @Field(() => [Blob])
-  nodes: Blob[];
-
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+  @Field()
+  nodes: [Blob];
 }
 
 @ObjectType()
 export class TreeEntryEdge {
-  @Field(() => TreeEntry)
-  node: TreeEntry;
-
   @Field()
-  cursor: string;
+  node: TreeEntry;
 }
 
 @ObjectType()
 export class TreeEntryConnection {
-  @Field(() => [TreeEntryEdge])
-  edges: TreeEntryEdge[];
+  @Field()
+  edges: [TreeEntryEdge];
 
-  @Field(() => [TreeEntry])
-  nodes: TreeEntry[];
-
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+  @Field()
+  nodes: [TreeEntry];
 }
 
 @ObjectType()
 export class Repository {
-  @Field(() => TreeConnection)
-  tree: TreeConnection;
+  @Field()
+  tree: Tree;
 
-  @Field(() => BlobConnection)
-  blobs: BlobConnection;
-
-  @Field(() => TreeEntryConnection)
-  trees: TreeEntryConnection;
-}
-
-@ObjectType()
-export class Project {
-  @Field(() => Repository)
-  repository: Repository;
+  @Field()
+  blobs: RepositoryBlobConnection;
 }
 
 @ObjectType()
 export class BlobNode {
-  @Field(() => Blob)
+  @Field()
   node: Blob;
 }
 
 @ObjectType()
 export class BlobEdgeConnection {
-  @Field(() => [BlobEdge])
-  edges: BlobEdge[];
+  @Field()
+  edges: [BlobEdge];
 
-  @Field(() => [BlobEdge])
-  nodes: BlobEdge[];
-
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+  @Field()
+  nodes: [BlobEdge];
 }
 
 @ObjectType()
 export class RepositoryBlobEdge {
-  @Field(() => Blob)
+  @Field()
   node: Blob;
 
   @Field()
@@ -203,18 +146,48 @@ export class RepositoryBlobEdge {
 
 @ObjectType()
 export class RepositoryBlob {
-  @Field(() => [RepositoryBlobEdge])
-  edges: RepositoryBlobEdge[];
+  @Field()
+  edges: [RepositoryBlobEdge];
 
-  @Field(() => [RepositoryBlob])
-  nodes: RepositoryBlob[];
+  @Field()
+  nodes: [RepositoryBlob];
+}
 
-  @Field(() => PageInfo)
-  pageInfo: PageInfo;
+@ObjectType()
+export class Project {
+  @Field()
+  repository: Repository;
+
+  @Field()
+  fullPath: string;
+
+  @Field()
+  path: string;
+
+  @Field()
+  webUrl: string;
 }
 
 @ObjectType()
 export class RawBlob {
   @Field()
   content: string;
+}
+
+@ObjectType()
+export class RepositoryBlobConnection {
+  @Field()
+  edges: [RepositoryBlobEdge];
+
+  @Field()
+  nodes: [RepositoryBlob];
+}
+
+@ObjectType()
+export class Query {
+  @Field()
+  listDirectory: Tree;
+
+  @Field()
+  readFile: Blob;
 }
