@@ -70,6 +70,6 @@ export class GitlabFilesService implements IFilesService {
       return ["Invalid query"];
     }
 
-    return [nodes[0].rawTextBlob];
+    return data;
   }
 }

@@ -2,7 +2,91 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Tree {
+  blobs: [Blob!]!
+  trees: [TreeEntry!]!
+}
+
+type TreeNode {
+  node: Tree!
+}
+
+type Blob {
+  flatPath: String!
+  id: String!
+  name: String!
+  path: String!
+  webPath: String!
+  webUrl: String!
+  rawBlob: String!
+  rawTextBlob: String!
+}
+
+type TreeEntry {
+  flatPath: String!
+  id: String!
+  name: String!
+  path: String!
+  webPath: String!
+  webUrl: String!
+}
+
+type TreeEdge {
+  node: TreeNode!
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String!
+}
+
+type TreeConnection {
+  edges: [TreeEdge!]!
+  nodes: [Tree!]!
+  pageInfo: PageInfo!
+}
+
+type BlobEdge {
+  node: Blob!
+  cursor: String!
+}
+
+type BlobConnection {
+  edges: [BlobEdge!]!
+  nodes: [Blob!]!
+  pageInfo: PageInfo!
+}
+
+type TreeEntryEdge {
+  node: TreeEntry!
+  cursor: String!
+}
+
+type TreeEntryConnection {
+  edges: [TreeEntryEdge!]!
+  nodes: [TreeEntry!]!
+  pageInfo: PageInfo!
+}
+
+type Repository {
+  tree: TreeConnection!
+  blobs: BlobConnection!
+  trees: TreeEntryConnection!
+}
+
+type RepositoryBlobEdge {
+  node: Blob!
+  cursor: String!
+}
+
+type RepositoryBlob {
+  edges: [RepositoryBlobEdge!]!
+  nodes: [RepositoryBlob!]!
+  pageInfo: PageInfo!
+}
+
 type Query {
-  listDirectory(path: String!): [String!]!
-  readFile(path: String!): [String!]!
+  listDirectory(path: String!): Tree!
+  readFile(path: String!): Blob!
 }
